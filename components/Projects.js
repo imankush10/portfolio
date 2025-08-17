@@ -22,7 +22,11 @@ const Projects = () => {
   const { projects = [] } = profile;
 
   return (
-    <section data-scroll-section className="w-full mx-auto py-20 px-4" id="projects">
+    <section
+      data-scroll-section
+      className="w-full mx-auto py-20 px-4"
+      id="projects"
+    >
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold mb-16 text-center">
           Featured Projects
@@ -33,15 +37,27 @@ const Projects = () => {
             // --- SPECIAL LAYOUT FOR ONLEVEL PROJECT ---
             if (p.slug === "onlevel") {
               return (
-                <div key={p.name} className="w-full">
+                <div key={p.name} className="w-full relative">
                   {/* Centered text block to introduce the demo */}
                   <div className="max-w-2xl mx-auto text-center mb-12">
                     <p className="text-sm uppercase tracking-widest text-gray-400 mb-2">
                       {p.date}
                     </p>
-                    <h3 className="text-4xl md:text-5xl font-semibold mb-4">
-                      {p.name}
-                    </h3>
+
+                    {/* Title + Arrow aligned and centered */}
+                    <div className="flex items-center justify-center gap-3 md:gap-4 mb-4">
+                      <h3 className="text-4xl md:text-5xl font-semibold leading-none">
+                        {p.name}
+                      </h3>
+                      <Link
+                        href={`/projects/${p.slug}`}
+                        aria-label={`Open details for ${p.name}`}
+                        className="group inline-flex p-2 md:p-3 rounded-full bg-white text-black shadow-lg ring-1 ring-black/10 hover:ring-black/20 transition"
+                      >
+                        <FiArrowUpRight className="w-8 h-8 md:w-9 md:h-9 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                      </Link>
+                    </div>
+
                     <p className="text-gray-300 mb-6">{p.tagline}</p>
                     <div className="flex flex-wrap gap-2 justify-center">
                       {p.tech?.map((t) => (
@@ -54,17 +70,9 @@ const Projects = () => {
                       ))}
                     </div>
                   </div>
+
                   {/* Render the interactive component */}
                   <InteractiveCodeEditor />
-                  <div className="mt-8 text-center">
-                    <Link
-                      href={`/projects/${p.slug}`}
-                      className="inline-flex items-center gap-2 text-black bg-white py-3 px-6 rounded-md font-semibold text-base group"
-                    >
-                      View details
-                      <FiArrowUpRight className="transition-transform group-hover:rotate-45" />
-                    </Link>
-                  </div>
                 </div>
               );
             }
@@ -72,14 +80,26 @@ const Projects = () => {
             // --- SPECIAL LAYOUT FOR REWIRE PROJECT ---
             if (p.slug === "rewire") {
               return (
-                <div key={p.name} className="w-full">
+                <div key={p.name} className="w-full relative">
                   <div className="max-w-2xl mx-auto text-center mb-12">
                     <p className="text-sm uppercase tracking-widest text-gray-400 mb-2">
                       {p.date}
                     </p>
-                    <h3 className="text-4xl md:text-5xl font-semibold mb-4">
-                      {p.name}
-                    </h3>
+
+                    {/* Title + Arrow aligned and centered */}
+                    <div className="flex items-center justify-center gap-3 md:gap-4 mb-4">
+                      <h3 className="text-4xl md:text-5xl font-semibold leading-none">
+                        {p.name}
+                      </h3>
+                      <Link
+                        href={`/projects/${p.slug}`}
+                        aria-label={`Open details for ${p.name}`}
+                        className="group inline-flex p-2 md:p-3 rounded-full bg-white text-black shadow-lg ring-1 ring-black/10 hover:ring-black/20 transition"
+                      >
+                        <FiArrowUpRight className="w-8 h-8 md:w-9 md:h-9 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                      </Link>
+                    </div>
+
                     <p className="text-gray-300 mb-6">{p.tagline}</p>
                     <div className="flex flex-wrap gap-2 justify-center">
                       {p.tech?.map((t) => (
@@ -92,20 +112,14 @@ const Projects = () => {
                       ))}
                     </div>
                   </div>
+
                   {/* Render the interactive component */}
                   <RewireInteractive />
-                  <div className="mt-8 text-center">
-                    <Link
-                      href={`/projects/${p.slug}`}
-                      className="inline-flex items-center gap-2 text-black bg-white py-3 px-6 rounded-md font-semibold text-base group"
-                    >
-                      View details
-                      <FiArrowUpRight className="transition-transform group-hover:rotate-45" />
-                    </Link>
-                  </div>
                 </div>
               );
             }
+
+            return null;
           })}
         </div>
       </div>

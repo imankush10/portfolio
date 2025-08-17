@@ -2,17 +2,9 @@ import React from "react";
 import profile from "../../../data/profile"; // Adjust path if needed
 import { FiArrowUpRight } from "react-icons/fi";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-
-// Client-only interactive components
-const InteractiveCodeEditor = dynamic(
-  () => import("@/components/InteractiveCodeEditor"),
-  { ssr: false }
-);
-const RewireInteractive = dynamic(
-  () => import("@/components/RewireInteractive"),
-  { ssr: false }
-);
+import ClientOnly from "@/components/ClientOnly";
+import InteractiveCodeEditor from "@/components/InteractiveCodeEditor";
+import RewireInteractive from "@/components/RewireInteractive";
 
 // This function tells Next.js which pages to pre-render at build time.
 export async function generateStaticParams() {
@@ -77,11 +69,13 @@ const ProjectDetailPage = ({ params }) => {
 
               {/* Interactive demo area */}
               <div className="mt-10">
-                {project.slug === "onlevel" ? (
-                  <InteractiveCodeEditor />
-                ) : project.slug === "rewire" ? (
-                  <RewireInteractive />
-                ) : null}
+                <ClientOnly>
+                  {project.slug === "onlevel" ? (
+                    <InteractiveCodeEditor />
+                  ) : project.slug === "rewire" ? (
+                    <RewireInteractive />
+                  ) : null}
+                </ClientOnly>
               </div>
             </div>
 
