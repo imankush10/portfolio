@@ -34,7 +34,7 @@ const ProjectDetailPage = ({ params }) => {
   return (
     <div data-scroll-section className="bg-black text-white">
       {/* Glass hero */}
-      <section className="relative min-h-[60vh] flex items-end">
+      <section className="relative min-h-[60vh] flex items-end overflow-x-clip">
         <div className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-900/70 to-black" />
         <div className="relative z-10 w-full px-4 md:px-8 pb-10">
           <div className="max-w-6xl mx-auto">
@@ -77,7 +77,7 @@ const ProjectDetailPage = ({ params }) => {
       </section>
 
       {/* Body */}
-      <section className="px-4 md:px-8 py-12">
+      <section className="px-4 md:px-8 py-12 overflow-x-clip">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Interactive demo full width */}
           {(project.slug === "onlevel" || project.slug === "rewire") && (

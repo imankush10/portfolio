@@ -13,10 +13,10 @@ const Projects = () => {
   return (
     <section
       data-scroll-section
-      className="w-full mx-auto py-20 px-4"
+      className="w-full mx-auto py-16 px-4 sm:px-6 lg:px-8 overflow-x-clip"
       id="projects"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto w-full">
         <h2 className="text-4xl font-bold mb-16 text-center">
           Featured Projects
         </h2>
@@ -28,7 +28,7 @@ const Projects = () => {
               return (
                 <div key={p.name} className="w-full relative">
                   {/* Centered text block to introduce the demo */}
-                  <div className="max-w-2xl mx-auto text-center mb-12">
+                  <div className="max-w-2xl w-full mx-auto text-center mb-12 px-2">
                     <p className="text-sm uppercase tracking-widest text-gray-400 mb-2">
                       {p.date}
                     </p>
@@ -61,7 +61,9 @@ const Projects = () => {
                   </div>
 
                   {/* Render the interactive component */}
-                  <InteractiveCodeEditor />
+                  <div className="w-full overflow-x-auto">
+                    <InteractiveCodeEditor />
+                  </div>
                 </div>
               );
             }
@@ -70,7 +72,7 @@ const Projects = () => {
             if (p.slug === "rewire") {
               return (
                 <div key={p.name} className="w-full relative">
-                  <div className="max-w-2xl mx-auto text-center mb-12">
+                  <div className="max-w-2xl w-full mx-auto text-center mb-12 px-2">
                     <p className="text-sm uppercase tracking-widest text-gray-400 mb-2">
                       {p.date}
                     </p>
@@ -103,7 +105,9 @@ const Projects = () => {
                   </div>
 
                   {/* Render the interactive component */}
-                  <RewireInteractive />
+                  <div className="w-full overflow-x-auto">
+                    <RewireInteractive />
+                  </div>
                 </div>
               );
             }
