@@ -43,6 +43,18 @@ const profile = {
       tagline: "AI-Powered Interview Engine",
       tech: ["Next.js", "TypeScript", "Firebase", "Vapi", "Gemini"],
       imageUrl: "/images/onlevel.png",
+      // Extra content for detail page UI
+      problem:
+        "Students struggle to get realistic mock interviews and actionable feedback tailored to their target role.",
+      solution:
+        "A voice-first interview engine powered by LLMs that generates role- and context-aware questions and delivers structured feedback instantly.",
+      metrics: [
+        { label: "Users", value: "15+" },
+        { label: "Sessions", value: "50+" },
+        { label: "Latency", value: "<400ms" },
+      ],
+      roles: ["Full‑stack", "AI integration", "Infra"],
+      gallery: [{ src: "/images/onlevel.png", alt: "OnLevel dashboard" }],
       highlights: [
         "Used by 15+ students for 50+ mock interviews with personalized feedback.",
         "Gemini LLM generates custom, role-based questions with session context.",
@@ -51,8 +63,8 @@ const profile = {
         "Scaled Firebase backend with secure auth and 10+ concurrent users.",
       ],
       links: {
-        repo: "",
-        live: "",
+        repo: "https://github.com/imankush10/interviewprep",
+        live: "https://onlevel.vercel.app",
       },
     },
     {
@@ -61,6 +73,18 @@ const profile = {
       date: "Dec 2024",
       tagline: "AI Feature Prediction System",
       tech: ["React", "Electron", "JavaScript", "FastAPI", "TensorFlow"],
+      imageUrl: "/images/onlevel.png",
+      problem:
+        "Manufacturing lines depend on delayed lab results to tune process parameters, causing scrap and inefficiency.",
+      solution:
+        "Edge-friendly ML predicts aluminum targets in real-time from PLC streams, closing the feedback loop on the shop floor.",
+      metrics: [
+        { label: "Accuracy", value: "98.97%" },
+        { label: "Build Size", value: "82MB" },
+        { label: "Throughput", value: "+50%" },
+      ],
+      roles: ["ML", "Desktop app", "Controls"],
+      gallery: [{ src: "/images/onlevel.png", alt: "Rewire runtime" }],
       highlights: [
         "Real-time aluminum feature prediction app; +50% production efficiency.",
         "TensorFlow model at 98.97% accuracy; optimized build to 82MB.",
@@ -69,7 +93,7 @@ const profile = {
         "Smart India Hackathon 2024 winner; implemented at NALCO Ltd.",
       ],
       links: {
-        repo: "",
+        repo: "https://github.com/imankush10/nalco-deliverable",
         live: "",
       },
     },

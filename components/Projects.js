@@ -3,20 +3,9 @@
 import React from "react";
 import profile from "../data/profile";
 import { FiArrowUpRight } from "react-icons/fi";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import InteractiveCodeEditor from "./InteractiveCodeEditor";
 import RewireInteractive from "./RewireInteractive";
-
-const textVariants = {
-  hidden: { opacity: 0, x: -50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
-
-const imageVariants = {
-  hidden: { opacity: 0, x: 50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
 
 const Projects = () => {
   const { projects = [] } = profile;
@@ -33,7 +22,7 @@ const Projects = () => {
         </h2>
 
         <div className="space-y-28">
-          {projects.map((p, index) => {
+          {projects.map((p) => {
             // --- SPECIAL LAYOUT FOR ONLEVEL PROJECT ---
             if (p.slug === "onlevel") {
               return (
@@ -127,4 +116,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default React.memo(Projects);

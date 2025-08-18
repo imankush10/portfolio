@@ -1,6 +1,7 @@
 import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/components/LenisProvider";
+import PageTransition from "@/components/PageTransition";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -22,7 +23,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
-        <LenisProvider>{children}</LenisProvider>
+        <LenisProvider>
+          <PageTransition>{children}</PageTransition>
+        </LenisProvider>
       </body>
     </html>
   );
