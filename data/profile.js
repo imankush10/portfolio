@@ -64,7 +64,7 @@ const profile = {
       ],
       links: {
         repo: "https://github.com/imankush10/interviewprep",
-        live: "https://onlevel.vercel.app",
+        live: "https://onlevel.imankush.in",
       },
     },
     {
