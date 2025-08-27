@@ -105,7 +105,7 @@ const Projects = () => {
                   </div>
 
                   {/* Render the interactive component */}
-                  <div className="w-full overflow-x-auto">
+                  <div className="w-full overflow-x-auto overflow-y-hidden">
                     <RewireInteractive />
                   </div>
                 </div>
