@@ -47,7 +47,7 @@ const ProjectDetailPage = ({ params }) => {
               width={1200}
               src={project.imageUrl}
               alt={project.name}
-              className="absolute md:-top-full left-0 w-full h-full object-cover"
+              className="absolute -top-1/2 md:-top-full left-0 w-full h-full object-cover" // FIX 1: Adjusted mobile top position
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
@@ -59,7 +59,7 @@ const ProjectDetailPage = ({ params }) => {
       </section>
 
       {/* Body Section - this is now separate and AFTER the hero */}
-      <section className="px-4 md:px-8 py-12 overflow-x-clip">
+      <section className="px-4 md:px-8 py-10 overflow-x-clip"> {/* FIX 2: Reduced vertical padding */}
         <ClientOnly>
           <AnimatedBodyContent
             project={project}
