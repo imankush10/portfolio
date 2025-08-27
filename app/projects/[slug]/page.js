@@ -47,7 +47,7 @@ const ProjectDetailPage = ({ params }) => {
               width={1200}
               src={project.imageUrl}
               alt={project.name}
-              className="absolute -top-full left-0 w-full h-full object-cover"
+              className="absolute md:-top-full left-0 w-full h-full object-cover"
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />

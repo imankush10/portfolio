@@ -90,11 +90,13 @@ const OrbitalAchievements = ({
 
   useEffect(() => {
     if (shouldReduceMotion) return;
+    controls.set({ rotate: 0 });
     controls.start(
       { rotate: 360 },
       { duration: 60, ease: "linear", repeat: Infinity }
     );
-  }, [controls, shouldReduceMotion]);
+    return () => controls.stop();
+  }, [controls, shouldReduceMotion, size]);
 
   useEffect(() => {
     onActiveChange?.(active);
