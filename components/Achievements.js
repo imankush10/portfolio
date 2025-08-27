@@ -233,8 +233,8 @@ const OrbitalAchievements = ({
   );
 };
 
-const CertsMarquee = ({ items = [], speed = 40 }) => {
-  const list = [...items, ...items];
+const CertsMarquee = ({ items = [], speed = 100 }) => {
+  const list = [...items];
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -250,7 +250,7 @@ const CertsMarquee = ({ items = [], speed = 40 }) => {
       />
       <motion.div
         className="flex gap-4 py-4"
-        animate={{ x: [0, -1000] }}
+        animate={{ x: [0, -3200] }}
         transition={
           shouldReduceMotion
             ? { duration: 0 }

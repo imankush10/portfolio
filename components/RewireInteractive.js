@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useSpring, useTransform } from "framer-motion";
 import {
   Activity,
   Gauge,
@@ -14,7 +14,7 @@ import {
 // Simple utility to clamp a number
 const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
-// Compute predicted properties from control params (toy model with some noise)
+// Compute predicted properties from control params
 function inferOutputs(params) {
   const { temp, cool, speed, alloy } = params;
   // Normalize inputs
@@ -23,8 +23,6 @@ function inferOutputs(params) {
   const s = (clamp(speed, 1, 12) - 1) / (12 - 1);
   const a = (clamp(alloy, 0.5, 2.5) - 0.5) / (2.5 - 0.5);
 
-  // Heuristics (not real metallurgy—just to visualize)
-  // UTS tends to increase with balanced cooling and proper alloying, drops at extremes of speed/temp
   let uts =
     180 +
     220 *
@@ -32,9 +30,7 @@ function inferOutputs(params) {
         0.3 * (1 - Math.abs(c - 0.6)) +
         0.3 * a -
         0.2 * s);
-  // Elongation decreases with higher speed/cooling, increases with slightly lower temp
   let elong = 8 + 14 * (0.6 * (1 - c) + 0.3 * (1 - s) + 0.2 * (1 - t));
-  // Conductivity roughly anti-correlated with alloy content and speed, benefits from moderate cooling
   let cond =
     35 + 25 * (0.5 * (1 - a) + 0.3 * (1 - s) + 0.2 * (1 - Math.abs(c - 0.5)));
 
@@ -67,7 +63,6 @@ function LiveLineChart({ series, colors, height = 220, className = "" }) {
   const width = 720; // viewBox width; SVG scales responsively
   const padding = { l: 40, r: 16, t: 12, b: 24 };
 
-  // Determine min/max across all series
   const { minY, maxY, maxLen } = useMemo(() => {
     let minY = Infinity,
       maxY = -Infinity,
@@ -116,7 +111,6 @@ function LiveLineChart({ series, colors, height = 220, className = "" }) {
       viewBox={`0 0 ${width} ${height}`}
       className={`w-full ${className}`}
     >
-      {/* Grid */}
       <g>
         {gridY.map((y, i) => (
           <line
@@ -130,7 +124,6 @@ function LiveLineChart({ series, colors, height = 220, className = "" }) {
           />
         ))}
       </g>
-      {/* Axes labels (min/max) */}
       <text x={8} y={yScale(maxY)} fill="#888" fontSize="10">
         {maxY.toFixed(0)}
       </text>
@@ -138,20 +131,22 @@ function LiveLineChart({ series, colors, height = 220, className = "" }) {
         {minY.toFixed(0)}
       </text>
 
-      {/* Series lines */}
       {series.map((s, idx) => {
         const path = s.data
           .map((v, i) => `${i === 0 ? "M" : "L"} ${xScale(i)} ${yScale(v)}`)
           .join(" ");
         return (
           <g key={idx}>
-            <path
+            <motion.path
               d={path}
               fill="none"
-              stroke={colors[idx] || "#fff"}
-              strokeWidth="2"
+              stroke={colors[idx] || "#ef4444"}
+              strokeWidth="2.5"
               strokeLinejoin="round"
               strokeLinecap="round"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
             />
           </g>
         );
@@ -160,7 +155,6 @@ function LiveLineChart({ series, colors, height = 220, className = "" }) {
   );
 }
 
-// Mini chart for a single metric with its own auto-scale and area fill
 function MiniMetricChart({
   label,
   unit,
@@ -224,15 +218,26 @@ function MiniMetricChart({
           />
         ))}
       </g>
-      <path d={pathArea} fill={`url(#${gradId})`} />
-      <path
+      <motion.path
+        d={pathArea}
+        fill={`url(#${gradId})`}
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+      />
+
+      <motion.path
         d={pathLine}
         fill="none"
         stroke={color}
         strokeWidth="2.5"
         strokeLinejoin="round"
         strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
       />
+
       <g>
         <circle cx={lastX} cy={lastY} r="3.5" fill={color} />
         <circle cx={lastX} cy={lastY} r="9" fill={color} opacity="0.12" />
@@ -257,17 +262,29 @@ export default function RewireInteractive() {
     speed: 4,
     alloy: 1.0,
   });
-  const [history, setHistory] = useState(() => ({
+  const [history, setHistory] = useState({
     uts: [250],
     elong: [14],
     cond: [50],
-  }));
+  });
 
-  // Debounced params to avoid spamming updates while sliding
   const debouncedParams = useDebouncedValue(params, 350);
-
-  // Keep previous debounced params to compute delta magnitude
   const prevParamsRef = useRef(debouncedParams);
+
+  // Use useSpring for smooth transitions
+  const springConfig = { stiffness: 100, damping: 20, mass: 1 };
+  const animatedUTS = useSpring(
+    history.uts[history.uts.length - 1] || 0,
+    springConfig
+  );
+  const animatedElong = useSpring(
+    history.elong[history.elong.length - 1] || 0,
+    springConfig
+  );
+  const animatedCond = useSpring(
+    history.cond[history.cond.length - 1] || 0,
+    springConfig
+  );
 
   const latest = useMemo(
     () => ({
@@ -281,44 +298,65 @@ export default function RewireInteractive() {
   const handle = (k) => (e) =>
     setParams((p) => ({ ...p, [k]: Number(e.target.value) }));
 
-  // On debounced change, snap directly to the new target (no animation)
+  const displayUTS = useTransform(animatedUTS, (v) => v.toFixed(1));
+  const displayElong = useTransform(animatedElong, (v) => v.toFixed(2));
+  const displayCond = useTransform(animatedCond, (v) => v.toFixed(2));
+
   useEffect(() => {
     const prev = prevParamsRef.current;
-
-    // Compute normalized delta magnitude to adjust drama
     const dt = Math.abs(debouncedParams.temp - prev.temp) / (720 - 550);
     const dc = Math.abs(debouncedParams.cool - prev.cool) / (15 - 1);
     const ds = Math.abs(debouncedParams.speed - prev.speed) / (12 - 1);
     const da = Math.abs(debouncedParams.alloy - prev.alloy) / (2.5 - 0.5);
     const deltaMag = Math.min(1, dt + dc + ds + da);
-
     const base = inferOutputs(debouncedParams);
-
-    // Slightly adjust for some variability but snap in one step
     const sign = Math.random() < 0.5 ? -1 : 1;
     const amplify = 1 + deltaMag * 0.4;
-    const target = {
-      uts: clamp(base.uts * amplify + sign * deltaMag * 20, 120, 420),
-      elong: clamp(
-        base.elong * (1 + deltaMag * 0.2) + (Math.random() - 0.5) * deltaMag,
-        2,
-        28
-      ),
-      cond: clamp(
-        base.cond * (1 + deltaMag * 0.2) + (Math.random() - 0.5) * deltaMag * 2,
-        15,
-        65
-      ),
-    };
 
-    setHistory((h) => ({
-      uts: [...h.uts, Number(target.uts.toFixed(1))].slice(-60),
-      elong: [...h.elong, Number(target.elong.toFixed(2))].slice(-60),
-      cond: [...h.cond, Number(target.cond.toFixed(2))].slice(-60),
-    }));
+    setHistory((h) => {
+      const recenter = (val, history) =>
+        val * 0.8 + (history.reduce((a, b) => a + b, 0) / history.length) * 0.2;
+
+      const target = {
+        uts: recenter(
+          clamp(base.uts * amplify + sign * deltaMag * 20, 120, 420),
+          h.uts
+        ),
+        elong: recenter(
+          clamp(
+            base.elong * (1 + deltaMag * 0.2) +
+              (Math.random() - 0.5) * deltaMag,
+            2,
+            28
+          ),
+          h.elong
+        ),
+        cond: recenter(
+          clamp(
+            base.cond * (1 + deltaMag * 0.2) +
+              (Math.random() - 0.5) * deltaMag * 2,
+            15,
+            65
+          ),
+          h.cond
+        ),
+      };
+
+      // Update spring values with the new target
+      animatedUTS.set(target.uts);
+      animatedElong.set(target.elong);
+      animatedCond.set(target.cond);
+
+      // Return the new history state
+      return {
+        uts: [...h.uts, Number(target.uts.toFixed(1))].slice(-30),
+        elong: [...h.elong, Number(target.elong.toFixed(2))].slice(-30),
+        cond: [...h.cond, Number(target.cond.toFixed(2))].slice(-30),
+      };
+    });
 
     prevParamsRef.current = debouncedParams;
-  }, [debouncedParams]);
+  }, [debouncedParams, animatedUTS, animatedElong, animatedCond]);
 
   return (
     <motion.div
@@ -328,7 +366,40 @@ export default function RewireInteractive() {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.7, ease: "easeOut" }}
     >
-      {/* Header */}
+      <style>{`
+        input[type="range"] {
+          -webkit-appearance: none;
+          appearance: none;
+          background: transparent;
+          cursor: pointer;
+          width: 100%;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+          background: #4a4a4a;
+          height: 2px;
+        }
+        input[type="range"]::-moz-range-track {
+          background: #4a4a4a;
+          height: 2px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          margin-top: -6px;
+          background-color: #ededed;
+          height: 14px;
+          width: 14px;
+          border-radius: 50%;
+          border: 2px solid #ededed;
+        }
+        input[type="range"]::-moz-range-thumb {
+          border: none;
+          border-radius: 50%;
+          background-color: #ededed;
+          height: 14px;
+          width: 14px;
+        }
+      `}</style>
       <div className="flex items-center justify-between border-b border-white/10 p-4 bg-black/20">
         <div className="flex items-center gap-3 text-white/90">
           <Zap className="w-4 h-4 text-red-400" />
@@ -336,13 +407,9 @@ export default function RewireInteractive() {
             Rewire • Real-time Prediction Lab
           </h3>
         </div>
-        <div className="flex items-center gap-3 text-xs text-white/60">
-        </div>
       </div>
 
-      {/* Content */}
       <div className="grid grid-cols-12">
-        {/* Controls */}
         <div className="col-span-12 md:col-span-3 border-r border-white/10 bg-gray-900/40 p-5">
           <div className="flex items-center gap-2 mb-3 text-white/80">
             <Sliders className="w-4 h-4" />
@@ -361,7 +428,6 @@ export default function RewireInteractive() {
                 step="1"
                 value={params.temp}
                 onChange={handle("temp")}
-                className="w-full"
               />
             </div>
             <div>
@@ -376,7 +442,6 @@ export default function RewireInteractive() {
                 step="0.5"
                 value={params.cool}
                 onChange={handle("cool")}
-                className="w-full"
               />
             </div>
             <div>
@@ -391,7 +456,6 @@ export default function RewireInteractive() {
                 step="0.5"
                 value={params.speed}
                 onChange={handle("speed")}
-                className="w-full"
               />
             </div>
             <div>
@@ -406,7 +470,6 @@ export default function RewireInteractive() {
                 step="0.1"
                 value={params.alloy}
                 onChange={handle("alloy")}
-                className="w-full"
               />
             </div>
             <div className="text-xs text-white/50 pt-1">
@@ -415,7 +478,6 @@ export default function RewireInteractive() {
           </div>
         </div>
 
-        {/* Graph */}
         <div className="col-span-12 md:col-span-6 p-5 bg-gradient-to-br from-gray-950/40 to-gray-900/40">
           <div className="flex items-center gap-2 mb-2 text-white/80">
             <TrendingUp className="w-4 h-4" />
@@ -443,37 +505,36 @@ export default function RewireInteractive() {
           </div>
         </div>
 
-        {/* Metrics */}
         <div className="col-span-12 md:col-span-3 border-l border-white/10 bg-black/30 p-5">
           <div className="grid grid-cols-1 gap-3">
-            <div className="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
+            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
               <div className="flex items-center justify-between text-white/70 text-sm">
                 <span className="font-medium">UTS</span>
                 <Gauge className="w-4 h-4" />
               </div>
-              <div className="text-2xl font-semibold text-white mt-1">
-                {latest.uts} <span className="text-sm text-white/60">MPa</span>
+              <div className="flex items-baseline text-2xl font-semibold text-white mt-1">
+                <motion.span>{displayUTS}</motion.span>
+                <span className="text-sm text-white/60 ml-1">MPa</span>
               </div>
             </div>
-
             <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/30">
               <div className="flex items-center justify-between text-white/70 text-sm">
                 <span className="font-medium">Conductivity</span>
                 <Sparkles className="w-4 h-4" />
               </div>
-              <div className="text-2xl font-semibold text-white mt-1">
-                {latest.cond}{" "}
-                <span className="text-sm text-white/60">MS/m</span>
+              <div className="flex items-baseline text-2xl font-semibold text-white mt-1">
+                <motion.span>{displayCond}</motion.span>
+                <span className="text-sm text-white/60 ml-1">MS/m</span>
               </div>
             </div>
-
-            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+            <div className="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
               <div className="flex items-center justify-between text-white/70 text-sm">
                 <span className="font-medium">Elongation</span>
                 <Activity className="w-4 h-4" />
               </div>
-              <div className="text-2xl font-semibold text-white mt-1">
-                {latest.elong} <span className="text-sm text-white/60">%</span>
+              <div className="flex items-baseline text-2xl font-semibold text-white mt-1">
+                <motion.span>{displayElong}</motion.span>
+                <span className="text-sm text-white/60 ml-1">%</span>
               </div>
             </div>
           </div>

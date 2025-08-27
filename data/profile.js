@@ -42,7 +42,7 @@ const profile = {
       date: "Feb 2025",
       tagline: "AI-Powered Interview Engine",
       tech: ["Next.js", "TypeScript", "Firebase", "Vapi", "Gemini"],
-      imageUrl: "/images/onlevel.png",
+      // imageUrl: "/images/onlevel.png",
       // Extra content for detail page UI
       problem:
         "Students struggle to get realistic mock interviews and actionable feedback tailored to their target role.",
@@ -73,12 +73,13 @@ const profile = {
       date: "Dec 2024",
       tagline: "AI Feature Prediction System",
       tech: ["React", "Electron", "JavaScript", "FastAPI", "TensorFlow"],
-      imageUrl: "/images/onlevel.png",
+      imageUrl: "/images/sih.png",
       problem:
         "Manufacturing lines depend on delayed lab results to tune process parameters, causing scrap and inefficiency.",
       solution:
         "Edge-friendly ML predicts aluminum targets in real-time from PLC streams, closing the feedback loop on the shop floor.",
       metrics: [
+        { label: "SIH 2024", value: "Winner" },
         { label: "Accuracy", value: "98.97%" },
         { label: "Build Size", value: "82MB" },
         { label: "Throughput", value: "+50%" },
@@ -152,18 +153,35 @@ const profile = {
       ],
     },
     {
-      title: "Silver Medal, Ideathon",
-      subtitle: "Technical Ideation Summit",
+      title: "Achiever of the Year 2025",
+      subtitle: "National Achievements Category – Achievers’ Day, CU",
       description:
-        "Idea-first presentation challenge (no build required). Proposed a strategy to reduce AI racial bias and hallucinations using micro-segmented models.",
-      year: "2024",
-      image: "/images/ideathon.jpeg",
-      icon: "/images/awards/medal.svg",
-      tags: ["Responsible AI", "Bias Mitigation", "Hallucination Reduction"],
+        "Recognized as Achiever of the Year 2025 for outstanding contributions to technology and innovation at the national level.",
+      year: "2025",
+      image: "/images/achiever.jpeg",
+      icon: "/images/awards/trophy.svg",
+      tags: ["Technology", "Innovation", "National Recognition", "Peer Help"],
       highlights: [
-        "Outlined a micro-segmented model architecture: small domain- and cohort-specific experts coordinated by a routing layer.",
-        "Context-aware expert selection to limit overgeneralization and reduce hallucinations.",
-        "Evaluation plan with fairness metrics (demographic parity, equalized odds) and hallucination rates, plus human-in-the-loop review.",
+        "Winner of Smart India Hackathon (SIH) 2024 with a real-time industrial ML system implemented at NALCO Ltd.",
+        "Ranked in the Top 2% nationwide in NPTEL exams, showcasing academic excellence.",
+        "Authored a successful research publication on an advanced topic in computer vision.",
+        "Creator of platform OnLevel that conducted 200+ mock interviews and student workshops at the university, directly helping peers improve interview skills and confidence.",
+      ],
+    },
+    {
+      title: "Research Publication: Content-Based Image Retrieval",
+      subtitle: "Visual Similarity indexing and retrieval framework",
+      description:
+        "Authored a research paper on a novel system for classifying and retrieving images based on visual features rather than metadata.",
+      year: "2022",
+      image: "/images/paper.png",
+      icon: "/images/awards/laurel.svg",
+      tags: ["Research", "Computer Vision", "CBIR", "Image Retrieval"],
+      highlights: [
+        "Engineered feature extraction using color, texture, and local keypoints.",
+        "Compared classical descriptors with CNN embeddings for speed and accuracy.",
+        "Implemented similarity search with cosine/Euclidean distance.",
+        "Evaluated across diverse categories with reproducible experiments.",
       ],
     },
     {
@@ -198,27 +216,16 @@ const profile = {
         "Hands-on demos and Q&A to help attendees apply concepts quickly.",
       ],
     },
-    {
-      title: "Research Publication: Content-Based Image Retrieval",
-      subtitle: "Visual Similarity indexing and retrieval framework",
-      description:
-        "Authored a research paper on a novel system for classifying and retrieving images based on visual features rather than metadata.",
-      year: "2022",
-      image: "/images/paper.png",
-      icon: "/images/awards/laurel.svg",
-      tags: ["Research", "Computer Vision", "CBIR", "Image Retrieval"],
-      highlights: [
-        "Engineered feature extraction using color, texture, and local keypoints.",
-        "Compared classical descriptors with CNN embeddings for speed and accuracy.",
-        "Implemented similarity search with cosine/Euclidean distance.",
-        "Evaluated across diverse categories with reproducible experiments.",
-      ],
-    },
   ],
   certifications: [
+    "The Complete JavaScript Course 2024: From Zero to Expert! – Udemy (Jonas Schmedtmann)",
+    "Python for Everybody Specialization – Coursera (University of Michigan)",
+    "Django for Everybody Specialization – Coursera (University of Michigan)",
+    "Meta React Native Specialization – Coursera (Meta)",
     "Full Stack Web Dev, System Design & DevOps – Harkirat Singh Cohort 2.0",
     "The Ultimate React Course 2025: React, Next.js, Redux & More",
-    "Blockchain using Ethereum and Polygon – Metacrafters (Top 3, $200 award, Proof‑of‑Work NFT)",
+    "Blockchain using Ethereum and Polygon – Metacrafters (Top 3, $200 award, Proof-of-Work NFT)",
+    "Meta Database Engineer Professional Certificate – Coursera (Meta)",
   ],
 };
 
