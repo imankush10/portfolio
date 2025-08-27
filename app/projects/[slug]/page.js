@@ -35,7 +35,7 @@ const ProjectDetailPage = ({ params }) => {
       {/* Hero Section */}
       <section
         className={`relative flex items-end overflow-hidden ${
-          project.imageUrl ? "min-h-[60vh]" : "min-h-[40vh] pt-4"
+          project.imageUrl ? "min-h-[60vh]" : "min-h-[40vh] pt-16"
         } ${
           !project.imageUrl ? "bg-gradient-to-br from-gray-900 to-black" : ""
         }`}
