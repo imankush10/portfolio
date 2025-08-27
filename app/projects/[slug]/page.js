@@ -35,7 +35,7 @@ const ProjectDetailPage = ({ params }) => {
       {/* Hero Section */}
       <section
         className={`relative flex items-end overflow-hidden ${
-          project.imageUrl ? "min-h-[60vh]" : "min-h-[40vh] pt-24"
+          project.imageUrl ? "min-h-[60vh]" : "min-h-[40vh] pt-4"
         } ${
           !project.imageUrl ? "bg-gradient-to-br from-gray-900 to-black" : ""
         }`}
@@ -47,7 +47,7 @@ const ProjectDetailPage = ({ params }) => {
               width={1200}
               src={project.imageUrl}
               alt={project.name}
-              className="absolute -top-1/2 md:-top-full left-0 w-full h-full object-cover" // FIX 1: Adjusted mobile top position
+              className="absolute -top-6 md:-top-full left-0 w-full h-full object-cover" // FIX 1: Adjusted mobile top position
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
