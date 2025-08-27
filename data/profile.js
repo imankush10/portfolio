@@ -137,7 +137,7 @@ const profile = {
       description:
         "Developed a real-time ML system for industrial manufacturing, leading to its adoption by a national public sector undertaking.",
       year: "2024",
-      image: "/images/onlevel.png",
+      image: "/images/sih.png",
       icon: "/images/awards/trophy.svg",
       tags: [
         "Machine Learning",
@@ -152,27 +152,12 @@ const profile = {
       ],
     },
     {
-      title: "Silver Medal, CodeHunt",
-      subtitle: "Treasure Hunt–Style DSA Puzzle Competition",
-      description:
-        "Secured the Silver Medal in CodeHunt, a multi-stage competition combining complex data structures and algorithms with treasure-hunt mechanics.",
-      year: "2023",
-      image: "/images/onlevel.png",
-      icon: "/images/awards/medal.svg",
-      tags: ["Data Structures", "Algorithms", "Problem Solving"],
-      highlights: [
-        "Solved chained, clue-driven challenges under strict time limits across checkpoints.",
-        "Designed team strategy to parallelize subproblems and prune the search space efficiently.",
-        "Ranked 2nd overall; awarded the Silver Medal.",
-      ],
-    },
-    {
       title: "Silver Medal, Ideathon",
       subtitle: "Technical Ideation Summit",
       description:
         "Idea-first presentation challenge (no build required). Proposed a strategy to reduce AI racial bias and hallucinations using micro-segmented models.",
-      year: "2023",
-      image: "/images/onlevel.png",
+      year: "2024",
+      image: "/images/ideathon.jpeg",
       icon: "/images/awards/medal.svg",
       tags: ["Responsible AI", "Bias Mitigation", "Hallucination Reduction"],
       highlights: [
@@ -182,13 +167,28 @@ const profile = {
       ],
     },
     {
+      title: "Silver Medal, CodeHunt",
+      subtitle: "Treasure Hunt–Style DSA Puzzle Competition",
+      description:
+        "Secured the Silver Medal in CodeHunt, a multi-stage competition combining complex data structures and algorithms with treasure-hunt mechanics.",
+      year: "2023",
+      image: "/images/codehunt.png",
+      icon: "/images/awards/medal.svg",
+      tags: ["Data Structures", "Algorithms", "Problem Solving"],
+      highlights: [
+        "Solved chained, clue-driven challenges under strict time limits across checkpoints.",
+        "Designed team strategy to parallelize subproblems and prune the search space efficiently.",
+        "Ranked 2nd overall; awarded the Silver Medal.",
+      ],
+    },
+    {
       title: "Top 3 — Metacrafters Blockchain Track",
       subtitle:
         "Ethereum & Polygon | Ranked 3rd, $200 Award, Proof‑of‑Work NFT",
       description:
         "Completed end‑to‑end developer tasks across EVM ecosystems with a focus on secure Solidity patterns, then scaled impact via a live workshop for peers.",
       year: "2023",
-      image: "/images/onlevel.png",
+      image: "/images/metacrafters.png",
       icon: "/images/awards/medal.svg",
       tags: ["Blockchain", "Solidity", "Ethereum", "Web3"],
       highlights: [
@@ -204,7 +204,7 @@ const profile = {
       description:
         "Authored a research paper on a novel system for classifying and retrieving images based on visual features rather than metadata.",
       year: "2022",
-      image: "/images/onlevel.png",
+      image: "/images/paper.png",
       icon: "/images/awards/laurel.svg",
       tags: ["Research", "Computer Vision", "CBIR", "Image Retrieval"],
       highlights: [
