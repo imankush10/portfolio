@@ -130,16 +130,18 @@ const OrbitalAchievements = ({
           backgroundPosition: "50% 50%, 50% 50%",
         }}
         animate={{
-          backgroundSize: hovering
-            ? ["140% 140%", "100% 100%"]
-            : ["0% 0%", "0% 0%"],
+          backgroundSize: hovering ? "100% 100%" : "40% 40%",
           filter: hovering
             ? `blur(0.5px) drop-shadow(0 0 12px ${color})`
             : "blur(0px)",
           opacity: hovering ? 1 : 0,
         }}
-        transition={{ duration: 0.45, ease: "easeOut" }}
+        transition={{
+          duration: 0.45,
+          ease: "easeOut"
+        }}
       />
+
 
       <motion.div
         className="absolute inset-0"
