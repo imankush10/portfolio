@@ -15,7 +15,6 @@ const profile = {
     "React Native",
     "Java",
     "SQL",
-    "Spring Boot",
     "Solidity",
   ],
   services: [
