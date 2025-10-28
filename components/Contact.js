@@ -110,7 +110,7 @@ const Contact = () => {
       key: "resume",
       title: "Resume",
       subtitle: "View PDF",
-      href: "https://drive.google.com/file/d/17ORU05BMosQyAlvTIwEOLhNtpYC9ehx0/view?usp=sharing",
+      href: "https://drive.google.com/file/d/1o_ffemkjXNqFWbyuKqa3IBVxChy-G2QI/view?usp=sharing",
       icon: FileText,
       highlight: "Latest",
     },
